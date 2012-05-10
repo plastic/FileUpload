@@ -1,15 +1,12 @@
 <?php
 class FileUploadController extends FileUploadAppController {
 
-	function beforeFilter(){
+	public function beforeFilter() {
 		parent::beforeFilter();
 		$this->Auth->allow("*");
 	}
 
-	public function index()
-	{
+	public function index() {
 		
 	}
 }
-
-?>
