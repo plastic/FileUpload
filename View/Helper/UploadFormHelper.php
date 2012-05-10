@@ -19,7 +19,7 @@ class UploadFormHelper extends AppHelper {
 		echo '<script id="template-upload" type="text/x-tmpl">
 		{% for (var i=0, file; file=o.files[i]; i++) { %}
 		    <tr class="template-upload fade">
-		        <td class="preview"><span class="fade"></span></td>
+		        <td class="preview"><span class="fade"><img src="{%=file.url%}"></span></td>
 		        <td class="name"><span>{%=file.name%}</span></td>
 		        <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
 		        {% if (file.error) { %}
@@ -55,11 +55,19 @@ class UploadFormHelper extends AppHelper {
 		            <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
 		            <td class="error" colspan="2"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.error] || file.error%}</td>
 		        {% } else { %}
-		            <td class="preview">{% if (file.thumbnail_url) { %}
-		                <a href="{%=file.url%}" title="{%=file.name%}" rel="gallery" download="{%=file.name%}"><img src="{%=file.thumbnail_url%}"></a>
-		            {% } %}</td>
+		            <td class="preview">
+						{% if (file.thumbnail_url) { %}
+		                	<a href="{%=file.url%}" title="{%=file.name%}" rel="gallery" download="{%=file.name%}"><img src="{%=file.thumbnail_url%}"></a>
+						{% }else{ %}
+							<a href="{%=file.url%}" title="{%=file.name%}" rel="gallery" download="{%=file.name%}"><img src="{%=file.url%}" width="50"></a>
+		            	{% } %}
+					</td>
 		            <td class="name">
-		                <a href="{%=file.url%}" title="{%=file.name%}" rel="{%=file.thumbnail_url&&\'gallery\'%}" download="{%=file.name%}">{%=file.name%}</a>
+						{% if (file.thumbnail_url) { %}
+		                	<a href="{%=file.url%}" title="{%=file.name%}" rel="{%=file.thumbnail_url&&\'gallery\'%}" download="{%=file.name%}">{%=file.name%}</a>
+						{% }else{ %}
+							<a href="{%=file.url%}" title="{%=file.name%}" rel="{%=file.url&&\'gallery\'%}" download="{%=file.name%}">{%=file.name%}</a>
+		            	{% } %}
 		            </td>
 		            <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
 		            <td colspan="2"></td>
@@ -142,7 +150,7 @@ class UploadFormHelper extends AppHelper {
 	private function _loadExternalJsFiles() {
 		echo '<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 		<script type="text/javascript" src="' . Router::url('/', true) . 'file_upload/js/vendor/jquery.ui.widget.js"></script>
-		<script type="text/javascript" src="' . Router::url('/', true) . 'file_uploa/jsd/tmpl.min.js"></script>
+		<script type="text/javascript" src="' . Router::url('/', true) . 'file_upload/js/tmpl.min.js"></script>
 		<script type="text/javascript" src="' . Router::url('/', true) . 'file_upload/js/load-image.min.js"></script>
 		<script type="text/javascript" src="' . Router::url('/', true) . 'file_upload/js/canvas-to-blob.min.js"></script>
 		<script type="text/javascript" src="http://blueimp.github.com/cdn/js/bootstrap.min.js"></script>

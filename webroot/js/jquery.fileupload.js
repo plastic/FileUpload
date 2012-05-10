@@ -26,21 +26,10 @@
     }
 }(function ($) {
     'use strict';
+	
+	$.support.xhrFileUpload = !!(window.XMLHttpRequestUpload && window.FileReader);
+	$.support.xhrFormDataFileUpload = !!window.FormData;
 
-    // The FileReader API is not actually used, but works as feature detection,
-    // as e.g. Safari supports XHR file uploads via the FormData API,
-    // but not non-multipart XHR file uploads:
-    $.support.xhrFileUpload = !!(window.XMLHttpRequestUpload && window.FileReader);
-    $.support.xhrFormDataFileUpload = !!window.FormData;
-
-    // The fileupload widget listens for change events on file input fields defined
-    // via fileInput setting and paste or drop events of the given dropZone.
-    // In addition to the default jQuery Widget methods, the fileupload widget
-    // exposes the "add" and "send" methods, to add or directly send files using
-    // the fileupload API.
-    // By default, files added via file input selection, paste, drag & drop or
-    // "add" method are uploaded immediately, but it is possible to override
-    // the "add" callback option to queue file uploads.
     $.widget('blueimp.fileupload', {
 
         options: {
@@ -262,12 +251,6 @@
                 multipart = options.multipart || !$.support.xhrFileUpload,
                 paramName = options.paramName[0];
             if (!multipart || options.blob) {
-                // For non-multipart uploads and chunked uploads,
-                // file meta data is not part of the request body,
-                // so we transmit this data as part of the HTTP headers.
-                // For cross domain requests, these headers must be allowed
-                // via Access-Control-Allow-Headers or removed using
-                // the beforeSend callback:
                 options.headers = $.extend(options.headers, {
                     'X-File-Name': file.name,
                     'X-File-Type': file.type,
