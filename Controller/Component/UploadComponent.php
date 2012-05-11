@@ -38,7 +38,7 @@ class UploadComponent extends Component {
 				if( !file_exists( $dir) ) {
 					@mkdir( $dir );
 				}
-				$this->options['upload_url'] = $this->getFullUrl().'/'.$dir;
+				$this->options['upload_url'] = $this->getFullUrl() . '/' . $dir;
 				$this->options['upload_dir'] = $dir;
 			}
 		}
@@ -70,7 +70,7 @@ class UploadComponent extends Component {
 			$file->size = filesize($file_path);
 			$file->url = $this->options['upload_url'] . rawurlencode($file->name);
 			foreach($this->options['image_versions'] as $version => $options) {
-				if (is_file($options['upload_dir'].$file_name)) {
+				if (is_file($options['upload_dir'] . $file_name)) {
 					$file->{$version . '_url'} = $options['upload_url'] . rawurlencode($file->name);
 				}
 			}
